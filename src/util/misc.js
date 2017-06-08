@@ -41,3 +41,7 @@ export const validLight = (value) => {
   if (value === 'true') return true;
   return false;
 };
+export const validMarquee = (value) => {
+  if (value === 'true') return true;
+  return false;
+};

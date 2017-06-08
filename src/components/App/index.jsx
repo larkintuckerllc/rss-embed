@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { CYCLING, LIGHT, POLLING, SIZE } from '../../strings';
+import { CYCLING, LIGHT, MARQUEE, POLLING, SIZE } from '../../strings';
 import * as fromAppBlocking from '../../ducks/appBlocking';
 import * as fromItemIndex from '../../ducks/itemIndex';
 import * as fromItems from '../../ducks/items';
+import Loading from './Loading';
+import Offline from './Offline';
+import Centered from './Centered';
+import Marquee from './Marquee';
 import styles from './index.scss';
 
-// TODO: ERROR
-// TODO: LOADING
 // TODO: MARQUEE
 // TODO: PUBDATES
 class App extends Component {
@@ -54,16 +56,35 @@ class App extends Component {
   }
   render() {
     const { appBlocking, fetchItemsErrorMessage, itemIndex, items } = this.props;
-    if (appBlocking) return <div>Loading</div>;
-    if (fetchItemsErrorMessage !== null) return <div>Error</div>;
-    if (items.length === 0) return null;
     return (
       <div
         id={styles.root}
-        style={{ lineHeight: '125%', fontSize: `${SIZE.toString()}px` }}
+        style={{ lineHeight: '150%', fontSize: `${SIZE.toString()}px` }}
         className={LIGHT ? styles.rootLight : styles.rootDark}
       >
-        <div>{items[itemIndex].description}</div>
+        {
+          appBlocking &&
+          <Loading />
+        }
+        {
+          !appBlocking &&
+          fetchItemsErrorMessage !== null &&
+          <Offline />
+        }
+        {
+          !appBlocking &&
+          fetchItemsErrorMessage === null &&
+          items.length !== 0 &&
+          !MARQUEE &&
+          <Centered text={items[itemIndex].description} />
+        }
+        {
+          !appBlocking &&
+          fetchItemsErrorMessage === null &&
+          items.length !== 0 &&
+          MARQUEE &&
+          <Marquee text={items[itemIndex].description} />
+        }
       </div>
     );
   }
