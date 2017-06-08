@@ -1,10 +1,8 @@
 import jsonp from 'jsonp';
 import moment from 'moment';
+import { FEED, FILTER } from '../strings';
 
 const TIMEOUT = 10 * 1000;
-// const FEED = 'http://ufalert.ufl.edu/category/ufalert/gainesville/gainesville-emergency-notification/feed/';
-const FEED = 'http://rss.cnn.com/rss/cnn_topstories.rss';
-const FILTER = '^[^<]+';
 const RE = new RegExp(FILTER, 'm');
 const YQL_ENDPOINT = 'https://query.yahooapis.com/v1/public/yql';
 const YQL_SELECT = encodeURI('select pubDate, description ');

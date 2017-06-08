@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { POLLING, CYCLING } from '../../strings';
 import * as fromAppBlocking from '../../ducks/appBlocking';
 import * as fromItemIndex from '../../ducks/itemIndex';
 import * as fromItems from '../../ducks/items';
 
-const POLLING = 30 * 1000;
-const CYCLING = 5 * 1000;
 class App extends Component {
   constructor(props) {
     super(props);
