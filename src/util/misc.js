@@ -1,5 +1,6 @@
 const MIN_POLLING = 60;
-const MIN_CYCLE = 5;
+const MIN_CYCLE = 10;
+const MIN_SIZE = 10;
 export const parseQueryString = () => {
   const parsed = {};
   const qs = window.location.search;
@@ -29,4 +30,14 @@ export const validCycling = (value) => {
   if (isNaN(parsed)) return MIN_CYCLE;
   if (parsed < MIN_CYCLE) return MIN_CYCLE;
   return parsed;
+};
+export const validSize = (value) => {
+  const parsed = parseInt(value, 10);
+  if (isNaN(parsed)) return MIN_SIZE;
+  if (parsed < MIN_SIZE) return MIN_SIZE;
+  return parsed;
+};
+export const validLight = (value) => {
+  if (value === 'true') return true;
+  return false;
 };
