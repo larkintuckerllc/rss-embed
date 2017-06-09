@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { CYCLING, MARQUEE, POLLING } from '../../strings';
+import moment from 'moment';
+import { CYCLING, MARQUEE, POLLING, PUBDATES } from '../../strings';
 import * as fromAppBlocking from '../../ducks/appBlocking';
 import * as fromItemIndex from '../../ducks/itemIndex';
 import * as fromItems from '../../ducks/items';
@@ -11,7 +12,7 @@ import Offline from './Offline';
 import Centered from './Centered';
 import Marquee from './Marquee';
 
-// TODO: PUBDATES
+// TODO: PUBDATE LIMIT
 class App extends Component {
   constructor(props) {
     super(props);
@@ -71,7 +72,13 @@ class App extends Component {
           fetchItemsErrorMessage === null &&
           items.length !== 0 &&
           !MARQUEE &&
-          <Centered text={items[itemIndex].description} />
+          <Centered
+            text={
+              PUBDATES
+              ? `${moment(items[itemIndex].pubDate).format('MMM D, h:mm A')} - ${items[itemIndex].description}`
+              : items[itemIndex].description
+            }
+          />
         }
         {
           !appBlocking &&
@@ -80,7 +87,11 @@ class App extends Component {
           MARQUEE &&
           <Marquee
             duration={CYCLING}
-            text={items[itemIndex].description}
+            text={
+              PUBDATES
+              ? `${moment(items[itemIndex].pubDate).format('MMM D, h:mm A')} - ${items[itemIndex].description}`
+              : items[itemIndex].description
+            }
           />
         }
       </Frame>

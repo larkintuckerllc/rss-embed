@@ -1,4 +1,3 @@
-// TODO: ADD BACK IN VALIDATION
 import { ACTION_PREFIX } from '../strings';
 
 // API

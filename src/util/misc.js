@@ -45,3 +45,7 @@ export const validMarquee = (value) => {
   if (value === 'true') return true;
   return false;
 };
+export const validPubDates = (value) => {
+  if (value === 'true') return true;
+  return false;
+};

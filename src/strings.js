@@ -1,4 +1,12 @@
-import { parseQueryString, validCycling, validLight, validMarquee, validPolling, validSize } from './util/misc';
+import {
+  parseQueryString,
+  validCycling,
+  validLight,
+  validMarquee,
+  validPolling,
+  validPubDates,
+  validSize,
+} from './util/misc';
 
 const parsed = parseQueryString();
 export const ACTION_PREFIX = 'app/';
@@ -10,3 +18,4 @@ export const POLLING = validPolling(parsed.polling);
 export const SIZE = validSize(parsed.size);
 export const LIGHT = validLight(parsed.light);
 export const MARQUEE = validMarquee(parsed.marquee);
+export const PUBDATES = validPubDates(parsed.pubdates);
