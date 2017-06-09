@@ -3,6 +3,7 @@ import {
   validCycling,
   validLight,
   validMarquee,
+  validMaxAge,
   validPolling,
   validPubDates,
   validSize,
@@ -18,4 +19,5 @@ export const POLLING = validPolling(parsed.polling);
 export const SIZE = validSize(parsed.size);
 export const LIGHT = validLight(parsed.light);
 export const MARQUEE = validMarquee(parsed.marquee);
-export const PUBDATES = validPubDates(parsed.pubdates);
+export const PUB_DATES = validPubDates(parsed['pub-dates']);
+export const MAX_AGE = validMaxAge(parsed['max-age']);

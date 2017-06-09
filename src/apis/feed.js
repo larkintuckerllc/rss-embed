@@ -1,6 +1,6 @@
 import jsonp from 'jsonp';
 import moment from 'moment';
-import { FEED, FILTER, PUBDATES } from '../strings';
+import { FEED, FILTER, MAX_AGE, PUB_DATES } from '../strings';
 
 const TIMEOUT = 10 * 1000;
 const RE = new RegExp(FILTER, 'm');
@@ -29,6 +29,10 @@ export const get = () => (
         });
         return;
       }
+      let maxAgeM = null;
+      if (PUB_DATES && MAX_AGE !== Infinity) {
+        maxAgeM = moment().subtract(MAX_AGE, 's');
+      }
       let transformed = data.query.results.item.map((o, i) => {
         let description = o.description;
         if (description === undefined) return null;
@@ -41,12 +45,17 @@ export const get = () => (
           description,
         };
         const dateM = moment(o.pubDate);
-        if (PUBDATES && !dateM.isValid()) return null;
-        if (PUBDATES) value.pubDate = dateM.valueOf();
+        if (PUB_DATES && !dateM.isValid()) return null;
+        if (
+          PUB_DATES &&
+          maxAgeM !== null &&
+          dateM.isBefore(maxAgeM)
+        ) return null;
+        if (PUB_DATES) value.pubDate = dateM.valueOf();
         return value;
       });
       transformed = transformed.filter(o => o !== null);
-      if (PUBDATES) transformed = transformed.sort((a, b) => b.pubDate - a.pubDate);
+      if (PUB_DATES) transformed = transformed.sort((a, b) => b.pubDate - a.pubDate);
       resolve(transformed);
     });
   })

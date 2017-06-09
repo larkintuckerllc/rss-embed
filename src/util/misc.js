@@ -1,6 +1,7 @@
 const MIN_POLLING = 60;
 const MIN_CYCLE = 10;
 const MIN_SIZE = 10;
+const MIN_MAX_AGE = 60;
 export const parseQueryString = () => {
   const parsed = {};
   const qs = window.location.search;
@@ -48,4 +49,10 @@ export const validMarquee = (value) => {
 export const validPubDates = (value) => {
   if (value === 'true') return true;
   return false;
+};
+export const validMaxAge = (value) => {
+  const parsed = parseInt(value, 10);
+  if (isNaN(parsed)) return Infinity;
+  if (parsed < MIN_MAX_AGE) return Infinity;
+  return parsed;
 };
