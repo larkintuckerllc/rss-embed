@@ -10,8 +10,8 @@ digital signage. Designed to be embedded within an iframe.
 
 Prerequisites:
 
-* (Node.js)[https://nodejs.org/en/]
-* (Yarn) [https://yarnpkg.com/en/]
+* [Node.js](https://nodejs.org/en/)
+* [Yarn](https://yarnpkg.com/en/)
 
 Download and expand into a directory. From within that direction run:
 
