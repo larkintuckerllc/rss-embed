@@ -1,9 +1,9 @@
 import jsonp from 'jsonp';
 import moment from 'moment';
-import { FILTER, MAX_AGE, PUB_DATES, URL } from '../strings';
+import { MAX_AGE, PARSE, PUB_DATES, URL } from '../strings';
 
 const TIMEOUT = 10 * 1000;
-const RE = new RegExp(FILTER, 'm');
+const RE = new RegExp(PARSE, 'm');
 const YQL_ENDPOINT = 'https://query.yahooapis.com/v1/public/yql';
 const YQL_SELECT = encodeURI('select pubDate, description ');
 const YQL_FROM = encodeURI('from rss ');
@@ -30,7 +30,7 @@ export const get = () => {
         !Array.isArray(data.query.results.item)
       ) {
         reject({
-          message: '500',
+          message: '400',
         });
         return;
       }
@@ -43,7 +43,7 @@ export const get = () => {
         if (description === undefined) return null;
         const match = RE.exec(description);
         if (match === null) return null;
-        description = match[0];
+        description = match[1];
         if (description === '') return null;
         const value = {
           id: i,

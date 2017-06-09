@@ -2,6 +2,8 @@ const MIN_POLLING = 60;
 const MIN_CYCLE = 10;
 const MIN_SIZE = 10;
 const MIN_MAX_AGE = 60;
+const DEFAULT_PARSE = '^([^<]+)';
+const RE = /\(.+\)/;
 export const parseQueryString = () => {
   const parsed = {};
   const qs = window.location.search;
@@ -59,4 +61,9 @@ export const validMaxAge = (value) => {
   if (isNaN(parsed)) return Infinity;
   if (parsed < MIN_MAX_AGE) return Infinity;
   return parsed;
+};
+export const validParse = (value) => {
+  if (value === undefined) return DEFAULT_PARSE;
+  if (!RE.test(value)) return DEFAULT_PARSE;
+  return value;
 };
