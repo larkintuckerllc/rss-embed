@@ -1,3 +1,4 @@
+// TODO: ADD BACK IN VALIDATION
 import { ACTION_PREFIX } from '../strings';
 
 // API
@@ -15,8 +16,14 @@ export default (state = true, action) => {
 };
 // ACCESSORS AKA SELECTORS
 export const getAppBlocking = state => state.appBlocking;
+// VALIDATORS
+const validAppBlocking = value =>
+  !(value === undefined || typeof value !== 'boolean');
 // ACTION CREATORS
-export const setAppBlocking = value => ({
-  type: SET_APP_BLOCKING,
-  value,
-});
+export const setAppBlocking = (value) => {
+  if (!validAppBlocking(value)) throw new Error();
+  return ({
+    type: SET_APP_BLOCKING,
+    value,
+  });
+};

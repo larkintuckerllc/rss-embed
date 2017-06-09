@@ -1,17 +1,30 @@
-import jsonp from 'jsonp';
-import moment from 'moment';
-import { FEED, FILTER } from '../strings';
+// import jsonp from 'jsonp';
+// import moment from 'moment';
+// import { FEED, FILTER } from '../strings';
 
-const TIMEOUT = 10 * 1000;
-const RE = new RegExp(FILTER, 'm');
+// const TIMEOUT = 10 * 1000;
+// const RE = new RegExp(FILTER, 'm');
+/*
 const YQL_ENDPOINT = 'https://query.yahooapis.com/v1/public/yql';
 const YQL_SELECT = encodeURI('select pubDate, description ');
 const YQL_FROM = encodeURI('from rss ');
 const YQL_WHERE = encodeURI(`where url="${FEED}"`);
 const YQL_URL = `${YQL_ENDPOINT}?q=${YQL_SELECT}${YQL_FROM}${YQL_WHERE}&format=json`;
 const DATE_TIME_FORMAT = 'ddd, DD MMM YYYY HH:mm:ss Z';
+*/
 // eslint-disable-next-line
 export const get = () => (
+  Promise.resolve([
+    {
+      id: 0,
+      description: 'First message, more, more, more, more, more, more, more',
+    },
+    {
+      id: 1,
+      description: 'Second message',
+    },
+  ])
+  /*
   new Promise((resolve, reject) => {
     jsonp(YQL_URL, { timeout: TIMEOUT }, (err, data) => {
       if (err !== null) {
@@ -48,4 +61,5 @@ export const get = () => (
       resolve(transformed);
     });
   })
+  */
 );

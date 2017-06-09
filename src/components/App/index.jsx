@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { CYCLING, LIGHT, MARQUEE, POLLING, SIZE } from '../../strings';
+import { CYCLING, MARQUEE, POLLING } from '../../strings';
 import * as fromAppBlocking from '../../ducks/appBlocking';
 import * as fromItemIndex from '../../ducks/itemIndex';
 import * as fromItems from '../../ducks/items';
+import Frame from './Frame';
 import Loading from './Loading';
 import Offline from './Offline';
 import Centered from './Centered';
 import Marquee from './Marquee';
-import styles from './index.scss';
 
-// TODO: MARQUEE
 // TODO: PUBDATES
 class App extends Component {
   constructor(props) {
@@ -24,7 +23,7 @@ class App extends Component {
     this.fetch();
     setInterval(() => {
       this.fetch();
-    }, POLLING);
+    }, POLLING * 1000);
   }
   cycle() {
     const { itemIndex, items, setItemIndex } = this.props;
@@ -43,7 +42,7 @@ class App extends Component {
       .then(
         () => {
           setAppBlocking(false);
-          this.cyclingInterval = setInterval(this.cycle, CYCLING);
+          this.cyclingInterval = setInterval(this.cycle, CYCLING * 1000);
         },
         (error) => {
           if (process.env.NODE_ENV !== 'production'
@@ -57,11 +56,7 @@ class App extends Component {
   render() {
     const { appBlocking, fetchItemsErrorMessage, itemIndex, items } = this.props;
     return (
-      <div
-        id={styles.root}
-        style={{ lineHeight: '150%', fontSize: `${SIZE.toString()}px` }}
-        className={LIGHT ? styles.rootLight : styles.rootDark}
-      >
+      <Frame>
         {
           appBlocking &&
           <Loading />
@@ -83,9 +78,12 @@ class App extends Component {
           fetchItemsErrorMessage === null &&
           items.length !== 0 &&
           MARQUEE &&
-          <Marquee text={items[itemIndex].description} />
+          <Marquee
+            duration={CYCLING}
+            text={items[itemIndex].description}
+          />
         }
-      </div>
+      </Frame>
     );
   }
 }
