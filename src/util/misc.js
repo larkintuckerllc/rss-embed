@@ -20,6 +20,10 @@ export const parseQueryString = () => {
   }
   return parsed;
 };
+export const validURL = (value) => {
+  if (value === undefined) return null;
+  return value;
+};
 export const validPolling = (value) => {
   const parsed = parseInt(value, 10);
   if (isNaN(parsed)) return MIN_POLLING;

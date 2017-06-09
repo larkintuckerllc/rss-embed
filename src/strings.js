@@ -7,11 +7,13 @@ import {
   validPolling,
   validPubDates,
   validSize,
+  validURL,
 } from './util/misc';
 
 const parsed = parseQueryString();
 export const ACTION_PREFIX = 'app/';
-// TODO: TAKE FROM QUERY
+export const URL = validURL(parsed.url);
+window.console.log(URL);
 export const FEED = 'http://rss.cnn.com/rss/cnn_topstories.rss';
 export const FILTER = parsed.filter !== undefined ? parsed.filter : '^[^<]+';
 export const CYCLING = validCycling(parsed.cycling);

@@ -8,6 +8,7 @@ import * as fromItemIndex from '../../ducks/itemIndex';
 import * as fromItems from '../../ducks/items';
 import Frame from './Frame';
 import Loading from './Loading';
+import Bad from './Bad';
 import Offline from './Offline';
 import Centered from './Centered';
 import Marquee from './Marquee';
@@ -63,7 +64,12 @@ class App extends Component {
         }
         {
           !appBlocking &&
-          fetchItemsErrorMessage !== null &&
+          fetchItemsErrorMessage === '400' &&
+          <Bad />
+        }
+        {
+          !appBlocking &&
+          fetchItemsErrorMessage === '500' &&
           <Offline />
         }
         {
