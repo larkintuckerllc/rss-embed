@@ -7,29 +7,46 @@ class Marquee extends Component {
     this.rootEl = document.getElementById(styles.root);
     this.animate();
   }
-  componentDidUpdate() {
-    this.animate();
+  componentDidUpdate(prevProps) {
+    const prevText = prevProps.text;
+    const { text } = this.props;
+    if (prevText !== text) this.animate();
   }
   animate() {
-    const { duration } = this.props;
-    const windowWidth = window.innerWidth;
-    const rootWidth = this.rootEl.offsetWidth;
-    this.rootEl.style.transition = 'transform 0s linear';
-    this.rootEl.style.transform = `translate(${windowWidth.toString()}px, -50%)`;
+    const { setMarqueeStart } = this.props;
+    setMarqueeStart(false);
     setTimeout(() => {
-      this.rootEl.style.transition = `transform ${(duration - 1).toString()}s linear`;
-      this.rootEl.style.transform = `translate(-${rootWidth.toString()}px, -50%)`;
+      setMarqueeStart(true);
     }, 1000);
   }
   render() {
-    const { text } = this.props;
+    const { duration, marqueeStart, text } = this.props;
+    const windowWidth = window.innerWidth;
+    const rootWidth = this.rootEl !== undefined
+      ? this.rootEl.offsetWidth
+      : 0;
     return (
-      <div id={styles.root}>{text}</div>
+      <div
+        style={
+          marqueeStart
+          ? {
+            transition: `transform ${(duration - 1).toString()}s linear`,
+            transform: `translate(-${rootWidth.toString()}px, -50%)`,
+          }
+          : {
+            transition: 'transform 0s linear',
+            transform: `translate(${windowWidth.toString()}px, -50%)`,
+          }
+        }
+        id={styles.root}
+      >{text}</div>
     );
   }
 }
 Marquee.propTypes = {
   duration: PropTypes.number.isRequired,
+  marqueeStart: PropTypes.bool.isRequired,
+  setMarqueeStart: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired,
 };
 export default Marquee;

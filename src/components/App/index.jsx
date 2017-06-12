@@ -6,6 +6,7 @@ import { CYCLING, MARQUEE, POLLING, PUB_DATES } from '../../strings';
 import * as fromAppBlocking from '../../ducks/appBlocking';
 import * as fromItemIndex from '../../ducks/itemIndex';
 import * as fromItems from '../../ducks/items';
+import * as fromMarqueeStart from '../../ducks/marqueeStart';
 import Frame from './Frame';
 import Loading from './Loading';
 import Bad from './Bad';
@@ -55,7 +56,14 @@ class App extends Component {
       );
   }
   render() {
-    const { appBlocking, fetchItemsErrorMessage, itemIndex, items } = this.props;
+    const {
+      appBlocking,
+      fetchItemsErrorMessage,
+      itemIndex,
+      items,
+      marqueeStart,
+      setMarqueeStart,
+    } = this.props;
     return (
       <Frame>
         {
@@ -92,6 +100,8 @@ class App extends Component {
           MARQUEE &&
           <Marquee
             duration={CYCLING}
+            marqueeStart={marqueeStart}
+            setMarqueeStart={setMarqueeStart}
             text={
               PUB_DATES
               ? `${moment(items[itemIndex].pubDate).format('MMM D, h:mm A')} - ${items[itemIndex].description}`
@@ -107,10 +117,12 @@ App.propTypes = {
   appBlocking: PropTypes.bool.isRequired,
   fetchItems: PropTypes.func.isRequired,
   fetchItemsErrorMessage: PropTypes.string,
+  marqueeStart: PropTypes.bool.isRequired,
   itemIndex: PropTypes.number.isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   setAppBlocking: PropTypes.func.isRequired,
   setItemIndex: PropTypes.func.isRequired,
+  setMarqueeStart: PropTypes.func.isRequired,
 };
 App.defaultProps = {
   fetchItemsErrorMessage: null,
@@ -121,9 +133,11 @@ export default connect(
     fetchItemsErrorMessage: fromItems.getFetchItemsErrorMessage(state),
     itemIndex: fromItemIndex.getItemIndex(state),
     items: fromItems.getItems(state),
+    marqueeStart: fromMarqueeStart.getMarqueeStart(state),
   }), {
     fetchItems: fromItems.fetchItems,
     setAppBlocking: fromAppBlocking.setAppBlocking,
     setItemIndex: fromItemIndex.setItemIndex,
+    setMarqueeStart: fromMarqueeStart.setMarqueeStart,
   },
 )(App);
